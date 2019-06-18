@@ -9,6 +9,7 @@ class Game{
   
 }
 
+
 final zeldaGame = Game(
   title: "The legend of zelda", 
   category: "Adventure", 
@@ -25,6 +26,16 @@ final overwatchGame = Game(
   review: "5,2K Review"
 );
 
+final apexLegendGame = Game(
+  title: "Apek Legend Game", 
+  category: "FPS", 
+  imagePath: "assets/images/apexlegend.png", 
+  provider: "Electronic Arts", 
+  review: "5,2K Review"
+);
+
 final game = [
-  zeldaGame
+  zeldaGame,
+  overwatchGame,
+  apexLegendGame
 ];
