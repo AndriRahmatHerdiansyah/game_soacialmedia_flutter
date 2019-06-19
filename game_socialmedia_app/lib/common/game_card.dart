@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_socialmedia_app/common/rating_star.dart';
 import 'package:game_socialmedia_app/model/game.dart';
 import 'package:game_socialmedia_app/styleguide/colors.dart';
 import 'package:game_socialmedia_app/styleguide/text_styles.dart';
@@ -6,26 +7,45 @@ import 'package:game_socialmedia_app/styleguide/text_styles.dart';
 
 class GameCard extends StatelessWidget {
   final Game game;
-  final int value;
-  final Widget filledStar;
-  final Widget unfilledStar;
 
-  const GameCard({
-    Key key,
-    this.value = 0,
-    @required this.filledStar,
-    @required this.unfilledStar, this.game,
-  })  : assert(value != null),
-        super(key: key);
-  
+  const GameCard({Key key, this.game}) : super(key: key);
+
+  Widget _buildRatingBar(ThemeData theme) {
+    var stars = <Widget>[];
+
+    for (var i = 1; i <= 5; i++) {
+      var color = i <= game.rating ? Colors.amber : Colors.black12;
+      var star = Icon(
+        Icons.star,
+        color: color,
+      );
+
+      stars.add(star);
+    }
+
+    return Row(
+      children: stars
+    );
+  }
   
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+
+    var starRating = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _buildRatingBar(theme)
+      ],
+    );
+
     return SizedBox(
+
       width: 280.0,
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 50.0),
-        elevation: 20.0,
+        // elevation: 20.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(18.0))
         ),
@@ -111,15 +131,26 @@ class GameCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 18.0),
                   child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: List.generate(5, (index) {
-                      return Icon(
-                        index < value ? Icons.star : Icons.star_border,
-                      );
-                    }),
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      starRating,
+                    ],
                   ),
                 ),
-              )
+              ),
+
+              Positioned(
+                right: 0,
+                bottom: 15,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 18.0, right: 18.0, top: 16.0, bottom: 8.0),
+                  child: Text(
+                    game.review,
+                    style: reviewTextStyle,
+                  ),
+                ),
+              ),
+
             ],
           ),
         ),
@@ -128,53 +159,13 @@ class GameCard extends StatelessWidget {
   }
 }
 
-class StarDisplay extends GameCard {
-  const StarDisplay({Key key, int value = 0})
-      : super(
-          key: key,
-          value: value,
-          filledStar: const Icon(Icons.star),
-          unfilledStar: const Icon(Icons.star_border),
-        );
-}
+// class StarDisplay extends GameCard {
+//   const StarDisplay({Key key, int value = 0})
+//       : super(
+//           key: key,
+//           value: value,
+//           filledStar: const Icon(Icons.star, color: Colors.amber,),
+//           unfilledStar: const Icon(Icons.star_border),
+//         );
+// }
 
-class StarRating extends StatelessWidget {
-  final void Function(int index) onChanged;
-  final int value;
-  final IconData filledStar;
-  final IconData unfilledStar;
-
-  const StarRating({
-    Key key,
-    @required this.onChanged,
-    this.value = 0,
-    this.filledStar,
-    this.unfilledStar,
-  })  : assert(value != null),
-        super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final color = Theme.of(context).accentColor;
-    final size = 36.0;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(5, (index) {
-        return IconButton(
-          onPressed: onChanged != null
-              ? () {
-                  onChanged(value == index + 1 ? index : index + 1);
-                }
-              : null,
-          color: index < value ? color : null,
-          iconSize: size,
-          icon: Icon(
-            index < value ? filledStar ?? Icons.star : unfilledStar ?? Icons.star_border,
-          ),
-          padding: EdgeInsets.zero,
-          tooltip: "${index + 1} of 5",
-        );
-      }),
-    );
-  }
-}

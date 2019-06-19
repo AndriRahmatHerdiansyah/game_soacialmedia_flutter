@@ -11,11 +11,11 @@ class _ListViewGameState extends State<ListViewGame> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 650.0,
+      height: 720.0,
       child: Stack(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(top: 145.0, left: 24.0),
+            padding: const EdgeInsets.only(top: 185.0, left: 24.0),
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
