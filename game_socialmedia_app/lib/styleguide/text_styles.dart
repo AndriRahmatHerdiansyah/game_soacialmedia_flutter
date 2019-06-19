@@ -8,13 +8,19 @@ final TextStyle headingStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 final TextStyle subHeadingStyle = TextStyle(
-  fontSize: 22.0,
-  color: Colors.white10,
+  fontSize: 20.0,
+  color: Colors.black,
   fontWeight: FontWeight.bold,
 );
 
 final TextStyle bodyTextStyle = TextStyle(
   fontWeight: FontWeight.normal,
   fontSize: 16.0,
+  color: secondaryFont,
+);
+
+final TextStyle labelTextStle = TextStyle(
+  fontWeight: FontWeight.normal,
+  fontSize: 14.0,
   color: Colors.white,
 );
